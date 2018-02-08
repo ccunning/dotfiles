@@ -1,0 +1,80 @@
+#!/bin/bash
+
+if ( ! getopts ":t:f:h:" opt); then
+       echo "Usage: `basename $0` -t host1 -t host2 ... -t hostn  -f fileofhosts -h help";
+       exit $E_OPTERROR;
+fi
+
+while getopts ":t:f:h:" opt; do
+    case $opt in
+         t)
+            #multi+=("$OPTARG")
+            HOSTLIST+=("$OPTARG")
+         ;;
+         f)
+            echo "filename is $OPTARG"
+            HOSTFILE=$OPTARG
+         ;;
+         h)
+             echo "Usage: `basename $0` -t host1 host2 ... hostn  -f fileofhosts -h help";
+            exit 1
+         ;;
+         *)
+            echo "Not Valid ... exiting"
+            exit 1
+         ;;
+    esac
+done
+if ! [[ "$TERM" =~ "screen".* ]] && [ -n $TMUX ]; then
+	SESSIONNAME=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | head -c3)
+	tmux new-session -s mysess-$SESSIONNAME -d
+fi
+
+count=-1
+
+if [ ! -z "${HOSTLIST[0]}" ]; then
+    for i in "${HOSTLIST[@]}"
+       do
+            let count=$count+1
+            if [ $count -eq 0 ]; then
+               tmux new-window "ssh $i"
+               sleep 0.2
+            else
+               tmux split-window -h "ssh $i"
+               tmux select-layout tiled
+               sleep 0.2
+            fi
+       done
+fi
+
+
+if [ ! -f "$HOSTFILE" ] ; then
+	if [ -f ~/hosts/${HOSTFILE} ]; then
+		HOSTFILE=~/hosts/${HOSTFILE}
+	fi
+fi
+if [ -f "$HOSTFILE" ]; then
+ IFS=$'\n'
+ for i in `cat $HOSTFILE`
+  do
+     let count=$count+1
+     if [ $count -eq 0 ]; then
+        tmux new-window "ssh $i"
+        sleep 0.2
+     else
+        tmux split-window -h "ssh $i"
+        tmux select-layout tiled
+        sleep 0.2
+     fi
+  done
+fi
+
+if ! [[ "$TERM" =~ "screen".* ]] && [ -n $TMUX ]; then
+    echo ""
+    echo "tmux-sessions open"
+    echo "use tmux attach -t session"
+    echo ""
+    echo ""
+    tmux list-sessions
+    tmux attach
+fi
