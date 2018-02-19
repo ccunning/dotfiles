@@ -90,8 +90,8 @@ alias rdp="xfreerdp --sec rdp --plugin cliprdr -g 1440x900"
 alias dc="docker-compose"
 alias n='terminal_velocity'
 
-export GOPATH="$HOME/Projects/Go/"
-export GOBIN="$HOME/Projects/Go/bin/"
+export GOPATH="${HOME}/Projects/Go/"
+export GOBIN="{$HOME}/Projects/Go/bin/"
 export PATH=$PATH:$GOROOT/bin:$GOBIN
 export HISTCONTROL=ignorespace:ignoredups
 
