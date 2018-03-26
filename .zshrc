@@ -91,9 +91,8 @@ alias dc="docker-compose"
 alias n='terminal_velocity'
 alias code='cd ~/Projects'
 
-export GOROOT="/usr/local/go"
-export GOPATH="$HOME/Projects/Go/"
-export GOBIN="$HOME/Projects/Go/bin/"
+export GOPATH="${HOME}/Projects/Go/"
+export GOBIN="{$HOME}/Projects/Go/bin/"
 export PATH=$PATH:$GOROOT/bin:$GOBIN
 export HISTCONTROL=ignorespace:ignoredups
 
