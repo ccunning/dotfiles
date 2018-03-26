@@ -89,7 +89,9 @@ alias t='/home/ccunning/.todo/todo.sh'
 alias rdp="xfreerdp --sec rdp --plugin cliprdr -g 1440x900"
 alias dc="docker-compose"
 alias n='terminal_velocity'
+alias code='cd ~/Projects'
 
+export GOROOT="/usr/local/go"
 export GOPATH="$HOME/Projects/Go/"
 export GOBIN="$HOME/Projects/Go/bin/"
 export PATH=$PATH:$GOROOT/bin:$GOBIN
