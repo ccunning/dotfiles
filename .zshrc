@@ -102,12 +102,12 @@ PERL_LOCAL_LIB_ROOT="/home/ccunning/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LI
 PERL_MB_OPT="--install_base \"/home/ccunning/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/home/ccunning/perl5"; export PERL_MM_OPT;
 
-# TMUX auto create sessions
-tmuxsession=$(tmux list-sessions | grep -v "(attached)" | awk -F':' '{print $1}' | head -1)
-if [ ! -z "$tmuxsession" ] ; then
-	tmux attach -t "$tmuxsession" &> /dev/null
-else
-	if [[ ! $TERM =~ screen ]]; then
-                tmux
-        fi
-fi
+## TMUX auto create sessions
+#tmuxsession=$(tmux list-sessions | grep -v "(attached)" | awk -F':' '{print $1}' | head -1)
+#if [ ! -z "$tmuxsession" ] ; then
+#	tmux attach -t "$tmuxsession" &> /dev/null
+#else
+#	if [[ ! $TERM =~ screen ]]; then
+#                tmux
+#        fi
+#fi
