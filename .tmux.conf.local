@@ -286,6 +286,8 @@ unbind C-l
 bind -r l previous-window
 bind -r n next-window
 
+set -as terminal-overrides ',*:indn@'
+
 # EOF
 #
 #
