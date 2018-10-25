@@ -1,0 +1,8 @@
+.config/*
+!.config/compton
+!.config/dunst
+!.config/i3
+!.config/ranger
+!.config/rofi
+!.config/sakura
+!.config/terminology
