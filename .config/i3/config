@@ -14,12 +14,15 @@ set $sup Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:monospace 8
+# font pango:monospace 12px
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
-#font pango:DejaVu Sans Mono 8
+font pango:DejaVu Sans Mono 12
+for_window [class="^.*"] border pixel 1
 
+gaps outer 5
+gaps inner 10
 # Before i3 v4.8, we used to recommend this one as the default:
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 # The font above is very space-efficient, that is, it looks good, sharp and
@@ -31,7 +34,7 @@ font pango:monospace 8
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec konsole
+bindsym $mod+Return exec terminology
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -41,7 +44,9 @@ bindsym $mod+Shift+q kill
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
-bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
+#bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
+bindsym $mod+d exec --no-startup-id rofi -show-icons -show drun
+bindsym $mod+Tab exec --no-startup-id rofi -show window
 
 # change focus
 bindsym $mod+h focus left
@@ -168,16 +173,74 @@ bindsym $mod+r mode "resize"
 # finds out, if available)
 bar {
         status_command i3status
+        font pango:monospace 12px
+        tray_output primary
+        binding_mode_indicator yes
 }
 
-# exec xrandr --dpi 150 --output eDP1 --mode 1920x1080 --rate 59.93
-# exec xinput set-prop 'SynPS/2 Synaptics TouchPad' 'libinput Tapping Enabled' 1
-# exec xinput set-prop 'SynPS/2 Synaptics TouchPad' 'libinput Natural Scrolling Enabled' 1
-# exec feh --bg-scale ~/Pictures/background.png
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
+exec --no-startup-id xinput set-prop 'SynPS/2 Synaptics TouchPad' 'libinput Tapping Enabled' 1
+exec --no-startup-id xinput set-prop 'SynPS/2 Synaptics TouchPad' 'libinput Natural Scrolling Enabled' 1
+exec --no-startup-id ~/.screenlayout/dock.sh
+exec --no-startup-id nm-applet
+exec --no-startup-id volumeicon
+exec --no-startup-id flameshot
+exec --no-startup-id compton --backend glx --vsync opengl-swc -b
+exec --no-startup-id /usr/lib/polkit-kde-authentication-agent-1
+exec --no-startup-id redshift-gtk
+
+bindsym $sup+l exec --no-startup-id i3lock -c 222222 -e -f
+
+# Mouse functions
+bindsym --release button2 kill
+bindsym --whole-window $mod+button3 floating toggle
+
+set $mode_launcher Launch: [f]irefox [s]ublime [e]volution [p]idgin [r]emmina
+bindsym $mod+Shift+d mode "$mode_launcher"
+
+mode "$mode_launcher" {
+    bindsym f exec firefox
+    bindsym s exec subl
+    bindsym e exec evolution
+    bindsym p exec pidgin
+    bindsym r exec remmina
+    bindsym l exec /usr/bin/chromium --profile-directory=Default --app-id=dimhappcodgioikaapfjaahnbjgiekck
+
+    bindsym Escape mode "default"
+    bindsym Return mode "default"
+}
+
+set $mode_display Display: [d]ock [m]irror [e]xtended [l]aptop
+bindsym $mod+Shift+s mode "$mode_display"
+
+mode "$mode_display" {
+    bindsym d exec ~/.screenlayout/dock.sh
+    bindsym m exec ~/.screenlayout/mirror.sh
+    bindsym e exec ~/.screenlayout/extended.sh
+    bindsym l exec ~/.screenlayout/laptop.sh
+    
+    bindsym Escape mode "default"
+    bindsym Return mode "default"
+}
+
+#bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
+#bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
+#bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
+
+# Media Keys
+bindsym XF86AudioPlay exec --no-startup-id "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"
+bindsym XF86AudioNext exec --no-startup-id "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"
+bindsym XF86AudioPrev exec --no-startup-id "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"
+bindsym XF86AudioStop exec --no-startup-id "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop"
 
 # Sreen brightness controls
-bindsym XF86MonBrightnessUp exec xbacklight -inc 10 # increase screen brightness
-bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightness
+bindsym XF86MonBrightnessUp exec xbacklight +10 # increase screen brightness
+bindsym XF86MonBrightnessDown exec xbacklight -10 # decrease screen brightness
+
+# Move Desktops between screens
+bindsym $mod+n move workspace to output left
+bindsym $mod+m move workspace to output right
+
+# Open default applications at boot
+exec --no-startup-id "i3-msg 'workspace 1; append_layout /home/ccunning/.i3/workspace-1.json'"exec --no-startup-id evolution
+exec --no-startup-id pidgin
+exec --no-startup-id flatpak run org.signal.Signal
