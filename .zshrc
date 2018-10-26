@@ -51,7 +51,7 @@ ZSH_THEME="rkj-repos"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git docker docker-compose history colorize colored-man-pages common-aliases golang sudo sublime kubectl history-substring-search python)
+plugins=(git docker docker-compose history colorize colored-man-pages common-aliases golang sudo sublime kubectl history-substring-search python vi-mode)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -91,6 +91,7 @@ alias dc="docker-compose"
 alias n='terminal_velocity'
 alias code='cd ~/Projects'
 
+export PATH="$PATH:${HOME}/bin"
 export GOPATH="${HOME}/Projects/Go/"
 export GOBIN="{$HOME}/Projects/Go/bin/"
 export PATH=$PATH:$GOROOT/bin:$GOBIN
@@ -101,6 +102,9 @@ PERL5LIB="/home/ccunning/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5
 PERL_LOCAL_LIB_ROOT="/home/ccunning/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
 PERL_MB_OPT="--install_base \"/home/ccunning/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/home/ccunning/perl5"; export PERL_MM_OPT;
+
+eval $(systemctl --user show-environment | grep SSH_AUTH_SOCK)
+export SSH_AUTH_SOCK
 
 # TMUX auto create sessions
 tmuxsession=$(tmux list-sessions | grep -v "(attached)" | awk -F':' '{print $1}' | head -1)
@@ -114,3 +118,8 @@ fi
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
+
+
+function open() {
+    xdg-open "$*" &|
+}
