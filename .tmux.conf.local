@@ -283,8 +283,8 @@ bind p run "cut -c3- ~/.tmux.conf.local  | sh -s _toggle_sp"
 #window navigation
 unbind C-h
 unbind C-m
-bind -r m previous-window
-bind -r n next-window
+bind -r n previous-window
+bind -r m next-window
 bind -r z run "cut -c3- ~/.tmux.conf | sh -s _toggle_mouse"
 
 set -as terminal-overrides ',*:indn@'

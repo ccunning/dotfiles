@@ -123,3 +123,4 @@ export PATH="$PATH:$HOME/.rvm/bin"
 function open() {
     xdg-open "$*" &|
 }
+alias please='sudo $(fc -ln -1)'
