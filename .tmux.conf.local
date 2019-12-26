@@ -301,17 +301,17 @@ set -as terminal-overrides ',*:indn@'
 #
 # _toggle_sp() {
 #    # set -x
-#    tmux setw synchronize-pane
-#    syncval=$(tmux showw -v synchronize-pane)
+#    tmux setw synchronize-panes
+#    syncval=$(tmux showw -v synchronize-panes | awk '{ print toupper($0) }')
 #    tmux_conf_theme_message_fg=${tmux_conf_theme_message_fg:-'#000000'}   # black
 #    tmux_conf_theme_message_bg=${tmux_conf_theme_message_bg:-'#ffff00'}   # yellow
 #    tmux_conf_theme_message_attr=${tmux_conf_theme_message_attr:-'bold'}
-#    if [ ${syncval^^} == "ON" ]; then
+#    if [ ${syncval} = "ON" ]; then
 #    	tmux set -g message-style "fg=#000000,bg=#00FF00,$tmux_conf_theme_message_attr"
 #    else
 #    	tmux set -g message-style "fg=#000000,bg=#FF0000,$tmux_conf_theme_message_attr"
 #    fi
-#    tmux display "SyncPane: ${syncval^^}"
+#    tmux display "SyncPane: ${syncval}"
 #    sleep 1
 #    tmux set -g message-style "fg=$tmux_conf_theme_message_fg,bg=$tmux_conf_theme_message_bg,$tmux_conf_theme_message_attr"
 # }

@@ -85,15 +85,22 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 export TODOTXT_DEFAULT_ACTION=ls
 # User specific aliases and functions
-alias t='/home/ccunning/.todo/todo.sh'
+alias t='/home/ccunning/.todo/todo.sh -t'
+alias td='/home/ccunning/.todo/todo.sh -t -d /home/ccunning/.todo/todo_dhs.cfg'
 alias rdp="xfreerdp --sec rdp --plugin cliprdr -g 1440x900"
+alias ltr="ls -ltr"
 alias dc="docker-compose"
 alias n='terminal_velocity'
-alias code='cd ~/Projects'
+alias c='cd ~/Projects'
+alias k8s='cd ~/Projects/k8s'
+alias dotnet='docker run -it --rm -v "$PWD:$PWD" microsoft/dotnet dotnet'
+alias ssh-copy-id='ssh-copy-id -i ~/.ssh/id_ed25519'
+alias shn='shutdown -h now'
+alias rm='trash-put'
 
 export PATH="$PATH:${HOME}/bin"
-export GOPATH="${HOME}/Projects/Go/"
-export GOBIN="{$HOME}/Projects/Go/bin/"
+export GOPATH="${HOME}/go"
+export GOBIN="${HOME}/go/bin/"
 export PATH=$PATH:$GOROOT/bin:$GOBIN
 export HISTCONTROL=ignorespace:ignoredups
 

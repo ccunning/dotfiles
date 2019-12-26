@@ -27,3 +27,5 @@ set lazyredraw
 set incsearch
 set hlsearch
 autocmd BufNewFile,BufRead * setlocal formatoptions-=r
+
+set pastetoggle=<F2>
