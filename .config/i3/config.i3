@@ -21,7 +21,7 @@ set $sup Mod4
 font pango:DejaVu Sans Mono 12
 for_window [class="^.*"] border pixel 1
 
-set $term gnome-terminal
+set $term terminology
 
 # gaps outer 5
 # gaps inner 10
@@ -142,7 +142,7 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'"
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -187,7 +187,7 @@ exec --no-startup-id xinput set-prop 'SynPS/2 Synaptics TouchPad' 'libinput Natu
 # exec --no-startup-id ~/.screenlayout/dock.sh
 
 # bindsym $sup+l exec --no-startup-id i3lock-fancy -n -b=0x6
-bindsym $sup+l exec --no-startup-id swaylock -t -i ~/Pictures/lock.png -c c1c1c1 -e -f
+bindsym $sup+l exec --no-startup-id i3-lock -t -i ~/Pictures/lock.png -c c1c1c1 -e -f
 
 # Mouse functions
 bindsym --release button2 kill

@@ -51,7 +51,7 @@ ZSH_THEME="rkj-repos"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git docker docker-compose history colorize colored-man-pages common-aliases golang sudo sublime kubectl history-substring-search python vi-mode)
+plugins=(aws git docker docker-compose history colorize colored-man-pages common-aliases golang sudo sublime kubectl history-substring-search python vi-mode)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -92,11 +92,14 @@ alias ltr="ls -ltr"
 alias dc="docker-compose"
 alias n='terminal_velocity'
 alias c='cd ~/Projects'
+alias iac='cd ~/Projects/IAC'
 alias k8s='cd ~/Projects/k8s'
 alias dotnet='docker run -it --rm -v "$PWD:$PWD" microsoft/dotnet dotnet'
-alias ssh-copy-id='ssh-copy-id -i ~/.ssh/id_ed25519'
+alias ssh-copy-id='ssh-copy-id -i ~/.ssh/id_ed25519 -o PubkeyAuthentication=no'
 alias shn='shutdown -h now'
 alias rm='trash-put'
+alias say='spd-say'
+alias gp='globalprotect'
 
 export PATH="$PATH:${HOME}/bin"
 export GOPATH="${HOME}/go"
