@@ -94,12 +94,25 @@ alias n='terminal_velocity'
 alias c='cd ~/Projects'
 alias iac='cd ~/Projects/IAC'
 alias k8s='cd ~/Projects/k8s'
-alias dotnet='docker run -it --rm -v "$PWD:$PWD" microsoft/dotnet dotnet'
 alias ssh-copy-id='ssh-copy-id -i ~/.ssh/id_ed25519 -o PubkeyAuthentication=no'
 alias shn='shutdown -h now'
 alias rm='trash-put'
 alias say='spd-say'
 alias gp='globalprotect'
+alias ac='~/bin/aws_cred'
+alias ap='source ~/bin/aws_prof'
+alias ami='aws ec2 describe-images --owners "470614982107" --profile mgmt | jq -r '\''.["Images"][] | .["Name"] + ": " + .["ImageId"]'\'' | sort'
+alias ami-west='aws ec2 describe-images --owners "470614982107" --profile mgmt-west | jq -r '\''.["Images"][] | .["Name"] + ": " + .["ImageId"]'\'' | sort'
+alias instances='aws ec2 describe-instances | jq -r '\''.["Reservations"][]["Instances"][] | .["InstanceId"] + ": " + (.["Tags"][] | select(.Key=="Name") | .["Value"])'\'
+alias aws_inv='for profile in $(aws configure list-profiles); do aws ec2 describe-instances --profile $profile | jq -r '\''.["Reservations"][]["Instances"][] | (.["Tags"][] | select(.Key=="Name") | .["Value"]) + "," + .["PrivateIpAddress"]'\''; done'
+alias fedramp_inv='aws s3 cp s3://wyy-security-aws-config/FedRAMPInventoryReports/$(aws s3 ls s3://wyy-security-aws-config/FedRAMPInventoryReports/ | tail -1 | awk '\''{print $4}'\'') .'
+alias wacom="~/bin/set_wacom"
+alias ssm="aws ssm start-session --target"
+
+
+# Force python3
+alias python="python3"
+alias pip="pip3"
 
 export PATH="$PATH:${HOME}/bin"
 export GOPATH="${HOME}/go"

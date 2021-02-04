@@ -1,0 +1,71 @@
+!! Colorscheme
+
+! special
+*.foreground:   #f8f8f2
+*.background:   #0c0d0e
+*.cursorColor:  #f8f8f2
+
+! black
+*.color0:       #272822
+*.color8:       #75715e
+
+! red
+*.color1:       #f92672
+*.color9:       #f92672
+
+! green
+*.color2:       #a6e22e
+*.color10:      #a6e22e
+
+! yellow
+*.color3:       #f4bf75
+*.color11:      #f4bf75
+
+! blue
+*.color4:       #66d9ef
+*.color12:      #66d9ef
+
+! magenta
+*.color5:       #ae81ff
+*.color13:      #ae81ff
+
+! cyan
+*.color6:       #a1efe4
+*.color14:      #a1efe4
+
+! white
+*.color7:       #f8f8f2
+*.color15:      #f9f8f5
+
+!! URxvt Appearance
+URxvt.font: xft:FreeMono:style=Regular:size=12
+URxvt.boldFont: xft:FreeMono:style=Bold
+URxvt.italicFont: xft:FreeMono:style=Oblique
+URxvt.boldItalicfont: xft:FreeMono:style=Bold Oblique
+URxvt.letterSpace: 0
+URxvt.lineSpace: 0
+URxvt.geometry: 80x60
+URxvt.internalBorder: 4
+URxvt.cursorBlink: true
+URxvt.cursorUnderline: false
+URxvt.saveline: 2048
+URxvt.scrollBar: false
+URxvt.scrollBar_right: false
+URxvt.urgentOnBell: true
+URxvt.depth: 32
+URxvt.iso14755: false
+URxvt*background: [95]#0c0d0e
+
+!! URxvt config
+URxvt.perl-lib: /usr/lib/urxvt/perl
+URxvt.perl-ext-common: default,font-size
+URxvt.keysym.Shift-Control-V: eval:paste_clipboard
+URxvt.keysym.Shift-Control-C: eval:selection_to_clipboard
+URxvt.keysym.Control-Meta-c: builtin-string:
+URxvt.keysym.Control-Meta-v: builtin-string:
+
+URxvt.keysym.C-plus:      font-size:increase
+URxvt.keysym.C-minus:     font-size:decrease
+URxvt.keysym.C-equal:     font-size:reset
+URxvt.keysym.C-question:  font-size:show
+URxvt.font-size.step:     4

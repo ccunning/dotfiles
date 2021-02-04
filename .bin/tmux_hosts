@@ -5,11 +5,14 @@ if ( ! getopts ":t:f:h:" opt); then
        exit $E_OPTERROR;
 fi
 
-while getopts ":t:f:h:" opt; do
+while getopts ":t:s:f:h:" opt; do
     case $opt in
          t)
             #multi+=("$OPTARG")
             HOSTLIST+=("$OPTARG")
+         ;;
+         s)
+            SSMLIST+=("$OPTARG")
          ;;
          f)
             echo "filename is $OPTARG"
@@ -47,6 +50,24 @@ if [ ! -z "${HOSTLIST[0]}" ]; then
        done
 fi
 
+if [ ! -z "${SSMLIST[0]}" ]; then
+    hosts=$(aws ec2 describe-instances | jq -r '.["Reservations"][]["Instances"][] | {(.["Tags"][] | select(.Key=="Name") | .["Value"]): .["InstanceId"]}' | jq -s 'add')
+    for i in "${SSMLIST[@]}"; do
+        host=$(tr '[:lower:]' '[:upper:]' <<< "${i}")
+        if ! [[ $(echo $hosts | jq -r ".[\"$host\"]") = "null" ]]; then
+            instance=$(jq -r ".[\"$host\"]" <<< "$hosts")
+            let count=$count+1
+            if [ $count -eq 0 ]; then
+                tmux new-window "aws ssm start-session --target $instance --profile $AWS_PROFILE"
+                sleep 0.2
+            else
+                tmux split-window -h "aws ssm start-session --target $instance --profile $AWS_PROFILE"
+                tmux select-layout tiled
+                sleep 0.2
+            fi
+        fi
+    done
+fi
 
 if [ ! -f "$HOSTFILE" ] ; then
 	if [ -f ~/hosts/${HOSTFILE} ]; then
