@@ -1,0 +1,9 @@
+#!/bin/bash
+
+monitor="${1}"
+
+wacom=$(xsetwacom --list devices | awk '{print $7}')
+
+while IFS= read -r w; do
+  xsetwacom --set "${w}" MapToOutput "${monitor}"
+done <<< "${wacom}"

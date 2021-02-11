@@ -1,31 +1,83 @@
 #!/bin/bash
 
+if [ -z "$1" ]; then
+    exit 1
+fi
 account="$1"
 
-if grep -q "[${account}]" ~/.aws/credentials; then
-    sed -i "/\[$account\]/,/^$/d" ~/.aws/credentials
-fi
-if grep -q "[${account}\-west]" ~/.aws/credentials; then
-    sed -i "/\[${account}-west\]/,/^$/d" ~/.aws/credentials
-fi
+if which "powershell.exe"; then
+    if powershell.exe -Command Get-Clipboard | grep -E -q "^\[.*\]"; then
+        if grep -q "[${account}]" ~/.aws/credentials; then
+            sed -i "/\[$account\]/,/^$/d" ~/.aws/credentials
+        fi
+        if grep -q "[${account}\-west]" ~/.aws/credentials; then
+            sed -i "/\[${account}-west\]/,/^$/d" ~/.aws/credentials
+        fi
 
-if ! grep -q "${account}" ~/.aws/config; then
-    echo "[profile ${account}]" >> ~/.aws/config
-    echo "region = us-east-2" >> ~/.aws/config
-    echo "output = json" >> ~/.aws/config
-    echo "" >> ~/.aws/config
-fi
-if ! grep -q "${account}-west" ~/.aws/config; then
-    echo "[profile ${account}-west]" >> ~/.aws/config
-    echo "region = us-west-2" >> ~/.aws/config
-    echo "output = json" >> ~/.aws/config
-    echo "" >> ~/.aws/config
-fi
+        if ! grep -q "${account}" ~/.aws/config; then
+            {
+                echo "[profile ${account}]";
+                echo "region = us-east-2" >> ~/.aws/config;
+                echo "output = json" >> ~/.aws/config;
+                echo "";
+            }>> ~/.aws/config
+        fi
+        if ! grep -q "${account}-west" ~/.aws/config; then
+            {
+                echo "[profile ${account}-west]";
+                echo "region = us-west-2";
+                echo "output = json";
+                echo "";
+            } >> ~/.aws/config
+        fi
+        {
+            powershell.exe -Command Get-Clipboard | sed "s/\[.*\]/[${account}]/g";
+            echo "";
+            echo "";
+        } >> ~/.aws/credentials
 
-xclip -selection clipboard -o | sed "s/\[.*\]/[${account}]/g" >> ~/.aws/credentials
-echo "" >> ~/.aws/credentials
-echo "" >> ~/.aws/credentials
+        {
+            powershell.exe -Command Get-Clipboard | sed "s/\[.*\]/[${account}-west]/g";
+            echo "";
+            echo "";
+        } >> ~/.aws/credentials
+    fi
 
-xclip -selection clipboard -o | sed "s/\[.*\]/[${account}-west]/g" >> ~/.aws/credentials
-echo "" >> ~/.aws/credentials
-echo "" >> ~/.aws/credentials
+else
+    if xclip -selection clipboard -o | grep -E -q "^\[.*\]"; then
+        if grep -q "[${account}]" ~/.aws/credentials; then
+            sed -i "/\[$account\]/,/^$/d" ~/.aws/credentials
+        fi
+        if grep -q "[${account}\-west]" ~/.aws/credentials; then
+            sed -i "/\[${account}-west\]/,/^$/d" ~/.aws/credentials
+        fi
+
+        if ! grep -q "${account}" ~/.aws/config; then
+            {
+                echo "[profile ${account}]";
+                echo "region = us-east-2"
+                echo "output = json"
+                echo "";
+            } >> ~/.aws/config
+        fi
+        if ! grep -q "${account}-west" ~/.aws/config; then
+            {
+                echo "[profile ${account}-west]";
+                echo "region = us-west-2";
+                echo "output = json";
+                echo "";
+            } >> ~/.aws/config
+        fi
+        {
+            xclip -selection clipboard -o | sed "s/\[.*\]/[${account}]/g";
+            echo "";
+            echo "";
+        } >> ~/.aws/credentials
+
+        {
+            xclip -selection clipboard -o | sed "s/\[.*\]/[${account}-west]/g";
+            echo "";
+            echo "";
+        }  >> ~/.aws/credentials
+    fi
+fi

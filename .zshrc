@@ -99,8 +99,9 @@ alias shn='shutdown -h now'
 alias rm='trash-put'
 alias say='spd-say'
 alias gp='globalprotect'
-alias ac='~/bin/aws_cred'
-alias ap='source ~/bin/aws_prof'
+alias ac='aws_cred'
+alias ap='source aws_prof'
+alias powershell='pwsh'
 alias ami='aws ec2 describe-images --owners "470614982107" --profile mgmt | jq -r '\''.["Images"][] | .["Name"] + ": " + .["ImageId"]'\'' | sort'
 alias ami-west='aws ec2 describe-images --owners "470614982107" --profile mgmt-west | jq -r '\''.["Images"][] | .["Name"] + ": " + .["ImageId"]'\'' | sort'
 alias instances='aws ec2 describe-instances | jq -r '\''.["Reservations"][]["Instances"][] | .["InstanceId"] + ": " + (.["Tags"][] | select(.Key=="Name") | .["Value"])'\'
@@ -114,7 +115,7 @@ alias ssm="aws ssm start-session --target"
 alias python="python3"
 alias pip="pip3"
 
-export PATH="$PATH:${HOME}/bin"
+export PATH="$PATH:${HOME}/.bin"
 export GOPATH="${HOME}/go"
 export GOBIN="${HOME}/go/bin/"
 export PATH=$PATH:$GOROOT/bin:$GOBIN
