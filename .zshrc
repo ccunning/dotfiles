@@ -104,7 +104,7 @@ alias ap='source aws_prof'
 alias powershell='pwsh'
 alias ami='aws ec2 describe-images --owners "470614982107" --profile mgmt | jq -r '\''.["Images"][] | .["Name"] + ": " + .["ImageId"]'\'' | sort'
 alias ami-west='aws ec2 describe-images --owners "470614982107" --profile mgmt-west | jq -r '\''.["Images"][] | .["Name"] + ": " + .["ImageId"]'\'' | sort'
-alias instances='aws ec2 describe-instances | jq -r '\''.["Reservations"][]["Instances"][] | .["InstanceId"] + ": " + (.["Tags"][] | select(.Key=="Name") | .["Value"])'\'
+alias instances='aws ec2 describe-instances --filters Name=instance-state-name,Values=running | jq -r '\''.["Reservations"][]["Instances"][] | .["InstanceId"] + ": " + (.["Tags"][] | select(.Key=="Name") | .["Value"])'\'
 alias aws_inv='for profile in $(aws configure list-profiles); do aws ec2 describe-instances --profile $profile | jq -r '\''.["Reservations"][]["Instances"][] | (.["Tags"][] | select(.Key=="Name") | .["Value"]) + "," + .["PrivateIpAddress"]'\''; done'
 alias fedramp_inv='aws s3 cp s3://wyy-security-aws-config/FedRAMPInventoryReports/$(aws s3 ls s3://wyy-security-aws-config/FedRAMPInventoryReports/ | tail -1 | awk '\''{print $4}'\'') .'
 alias wacom="~/bin/set_wacom"
