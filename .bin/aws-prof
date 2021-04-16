@@ -1,0 +1,13 @@
+#!/bin/bash
+
+if [[ ! -z ${1} ]]; then
+  export AWS_PROFILE=${1}
+else
+  prof=${1}
+  if which fzf &>/dev/null; then
+    prof=$(aws configure list-profiles | grep -E -iv "\-sso$" | fzf)
+    [[ ! -z "$prof" ]] && export AWS_PROFILE="$prof" || unset AWS_PROFILE
+  else
+    unset AWS_PROFILE
+  fi
+fi

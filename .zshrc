@@ -1,8 +1,8 @@
 # If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+# export PATH=${HOME}/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-  export ZSH=/home/ccunning/.oh-my-zsh
+export ZSH="${HOME}/.oh-my-zsh"
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -51,7 +51,9 @@ ZSH_THEME="rkj-repos"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(aws git docker docker-compose history colorize colored-man-pages common-aliases golang sudo sublime kubectl history-substring-search python vi-mode)
+plugins=(aws git docker docker-compose history colorize colored-man-pages common-aliases golang sudo sublime kubectl history-substring-search python vi-mode terraform)
+
+ZSH_DISABLE_COMPFIX=true
 
 source $ZSH/oh-my-zsh.sh
 
@@ -84,67 +86,35 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 export TODOTXT_DEFAULT_ACTION=ls
-# User specific aliases and functions
-alias t='/home/ccunning/.todo/todo.sh -t'
-alias td='/home/ccunning/.todo/todo.sh -t -d /home/ccunning/.todo/todo_dhs.cfg'
-alias rdp="xfreerdp --sec rdp --plugin cliprdr -g 1440x900"
-alias ltr="ls -ltr"
-alias dc="docker-compose"
-alias n='terminal_velocity'
-alias c='cd ~/Projects'
-alias iac='cd ~/Projects/IAC'
-alias k8s='cd ~/Projects/k8s'
-alias ssh-copy-id='ssh-copy-id -i ~/.ssh/id_ed25519 -o PubkeyAuthentication=no'
-alias shn='shutdown -h now'
-alias rm='trash-put'
-alias say='spd-say'
-alias gp='globalprotect'
-alias ac='aws_cred'
-alias ap='source aws_prof'
-alias powershell='pwsh'
-alias ami='aws ec2 describe-images --owners "470614982107" --profile mgmt | jq -r '\''.["Images"][] | .["Name"] + ": " + .["ImageId"]'\'' | sort'
-alias ami-west='aws ec2 describe-images --owners "470614982107" --profile mgmt-west | jq -r '\''.["Images"][] | .["Name"] + ": " + .["ImageId"]'\'' | sort'
-alias instances='aws ec2 describe-instances --filters Name=instance-state-name,Values=running | jq -r '\''.["Reservations"][]["Instances"][] | .["InstanceId"] + ": " + (.["Tags"][] | select(.Key=="Name") | .["Value"])'\'
-alias aws_inv='for profile in $(aws configure list-profiles); do aws ec2 describe-instances --profile $profile | jq -r '\''.["Reservations"][]["Instances"][] | (.["Tags"][] | select(.Key=="Name") | .["Value"]) + "," + .["PrivateIpAddress"]'\''; done'
-alias fedramp_inv='aws s3 cp s3://wyy-security-aws-config/FedRAMPInventoryReports/$(aws s3 ls s3://wyy-security-aws-config/FedRAMPInventoryReports/ | tail -1 | awk '\''{print $4}'\'') .'
-alias wacom="~/bin/set_wacom"
-alias ssm="aws ssm start-session --target"
 
+if trash > /dev/null 2>&1; then
+  alias rm='trash'
+fi
+if trash-put > /dev/null 2>&1; then
+  alias rm='trash-put'
+fi
 
 # Force python3
 alias python="python3"
 alias pip="pip3"
 
-export PATH="$PATH:${HOME}/.bin"
-export GOPATH="${HOME}/go"
-export GOBIN="${HOME}/go/bin/"
-export PATH=$PATH:$GOROOT/bin:$GOBIN
-export HISTCONTROL=ignorespace:ignoredups
 
-PATH="/home/ccunning/perl5/bin${PATH:+:${PATH}}"; export PATH;
-PERL5LIB="/home/ccunning/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
-PERL_LOCAL_LIB_ROOT="/home/ccunning/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
-PERL_MB_OPT="--install_base \"/home/ccunning/perl5\""; export PERL_MB_OPT;
-PERL_MM_OPT="INSTALL_BASE=/home/ccunning/perl5"; export PERL_MM_OPT;
-
-eval $(systemctl --user show-environment | grep SSH_AUTH_SOCK)
-export SSH_AUTH_SOCK
-
-# TMUX auto create sessions
-tmuxsession=$(tmux list-sessions | grep -v "(attached)" | awk -F':' '{print $1}' | head -1)
-if [ ! -z "$tmuxsession" ] ; then
-	tmux attach -t "$tmuxsession" &> /dev/null
-else
-	if [[ ! $TERM =~ screen ]]; then
-                tmux
-        fi
-fi
-
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
-
+# AWS Configuration
+export AWS_PAGER=""
 
 function open() {
     xdg-open "$*" &|
 }
-alias please='sudo $(fc -ln -1)'
+
+# Include zshrc.d folder for more configuration
+[ -d ~/.zshrc.d ] && source ~/.zshrc.d/*
+
+# include zshrc.local for machine specific configurations
+# Some examples might include:
+#   eval $(systemctl --user show-environment | grep SSH_AUTH_SOCK)
+#   export SSH_AUTH_SOCK
+[ -f ~/.zshrc.local ] && source ~/.zshrc.local
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:${HOME}/.rvm/bin"
+
