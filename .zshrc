@@ -102,6 +102,9 @@ alias pip="pip3"
 # AWS Configuration
 export AWS_PAGER=""
 
+# Terraform Configuration
+export TF_PLUGIN_CACHE_DIR="~/.terraform.d/plugin-cache"
+
 function open() {
     xdg-open "$*" &|
 }
