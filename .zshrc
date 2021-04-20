@@ -120,7 +120,7 @@ else
 fi
 
 # Include zshrc.d folder for more configuration
-[ -d ~/.zshrc.d ] && source ~/.zshrc.d/*
+[ -d ~/.zshrc.d ] && for file in ~/.zshrc.d/*; do source $file; done
 
 # include zshrc.local for machine specific configurations
 # Some examples might include:
