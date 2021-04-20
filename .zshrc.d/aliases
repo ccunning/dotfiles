@@ -2,8 +2,8 @@
 alias please='sudo $(fc -ln -1)'
 
 # User specific aliases and functions
-alias t='~/.todo/todo.sh -t'
-alias td='~/.todo/todo.sh -t -d /home/ccunning/.todo/todo_dhs.cfg'
+alias t='todo.sh -t'
+alias td='todo.sh -t -d ${HOME}/.todo/todo_dhs.cfg'
 alias rdp="xfreerdp --sec rdp --plugin cliprdr -g 1440x900"
 alias ltr="ls -ltr"
 alias dc="docker-compose"
