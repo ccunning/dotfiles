@@ -3,7 +3,6 @@ alias please='sudo $(fc -ln -1)'
 
 # User specific aliases and functions
 alias t='todo.sh -t'
-alias td='todo.sh -t -d ${HOME}/.todo/todo_dhs.cfg'
 alias rdp="xfreerdp --sec rdp --plugin cliprdr -g 1440x900"
 alias ltr="ls -ltr"
 alias dc="docker-compose"
@@ -25,3 +24,4 @@ alias wacom="~/bin/set_wacom"
 alias ssm="aws ssm start-session --target"
 alias ssh-add="ssh-add ~/.ssh/id_ed25519 ~/.ssh/id_ed25519_git"
 alias av="aws-vault"
+
