@@ -1,8 +1,10 @@
 #!/bin/bash
 
-HERE=$(dirname "$0")
+HERE=$PWD
 
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+rm -f ~/.zshrc
 
 ln -s "${HERE}/.zshrc" ~
 ln -s "${HERE}/.zshrc.d" ~
