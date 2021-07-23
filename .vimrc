@@ -134,13 +134,14 @@ set fileencoding=utf-8
 set fileencodings=utf-8
 set ttyfast
 
+set autoindent
+
 "" Fix backspace indent
 set backspace=indent,eol,start
 
 "" Tabs. May be overridden by autocmd rules
-set tabstop=4
-set softtabstop=0
-set shiftwidth=4
+set softtabstop=2
+set shiftwidth=2
 set expandtab
 
 "" Map leader to ,
