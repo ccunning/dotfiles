@@ -103,21 +103,21 @@ alias pip="pip3"
 export AWS_PAGER=""
 
 # Terraform Configuration
-export TF_PLUGIN_CACHE_DIR="~/.terraform.d/plugin-cache"
+export TF_PLUGIN_CACHE_DIR="$HOME/.terraform.d/plugin-cache"
 
 function open() {
     xdg-open "$*" &|
 }
 
 # TMUX auto create sessions
-tmuxsession=$(tmux list-sessions | grep -v "(attached)" | awk -F':' '{print $1}' | head -1)
-if [ ! -z "$tmuxsession" ] ; then
-    tmux attach -t "$tmuxsession" &> /dev/null
-else
-    if [[ ! $TERM =~ screen ]]; then
-        tmux
-    fi
-fi
+# tmuxsession=$(tmux list-sessions | grep -v "(attached)" | awk -F':' '{print $1}' | head -1)
+# if [ ! -z "$tmuxsession" ] ; then
+#     tmux attach -t "$tmuxsession" &> /dev/null
+# else
+#     if [[ ! $TERM =~ screen ]]; then
+#         tmux
+#     fi
+# fi
 
 # Include zshrc.d folder for more configuration
 [ -d ~/.zshrc.d ] && for file in ~/.zshrc.d/*; do source $file; done
