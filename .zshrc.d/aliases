@@ -2,6 +2,7 @@
 alias please='sudo $(fc -ln -1)'
 
 # User specific aliases and functions
+alias -- -="cd -" # Changes back to previous directory
 alias t='todo.sh -t'
 alias rdp="xfreerdp --sec rdp --plugin cliprdr -g 1440x900"
 alias ltr="ls -ltr"
@@ -25,3 +26,13 @@ alias ssm="aws ssm start-session --target"
 alias ssh-add="ssh-add ~/.ssh/id_ed25519 ~/.ssh/id_ed25519_git"
 alias av="aws-vault"
 
+# Terraform / Terragrunt
+alias tgp="terragrunt plan"
+alias tgps="terragrunt plan --terragrunt-source-update"
+alias tga="terragrunt apply"
+alias tgas="terragrunt apply --terragrunt-source-update"
+alias tgi="terragrunt init"
+alias tgis="terragrunt init --terragrunt-source-update"
+
+# Mac
+alias ssn="pmset sleepnow"
