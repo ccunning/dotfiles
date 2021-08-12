@@ -51,7 +51,7 @@ ZSH_THEME="rkj-repos"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(aws git docker docker-compose history colorize colored-man-pages common-aliases golang sudo sublime kubectl history-substring-search python vi-mode terraform)
+plugins=(aws git docker docker-compose history colorize colored-man-pages common-aliases golang sudo sublime kubectl history-substring-search python vi-mode terraform asdf)
 
 ZSH_DISABLE_COMPFIX=true
 
@@ -110,14 +110,14 @@ function open() {
 }
 
 # TMUX auto create sessions
-# tmuxsession=$(tmux list-sessions | grep -v "(attached)" | awk -F':' '{print $1}' | head -1)
-# if [ ! -z "$tmuxsession" ] ; then
-#     tmux attach -t "$tmuxsession" &> /dev/null
-# else
-#     if [[ ! $TERM =~ screen ]]; then
-#         tmux
-#     fi
-# fi
+tmuxsession=$(tmux list-sessions | grep -v "(attached)" | awk -F':' '{print $1}' | head -1)
+if [ ! -z "$tmuxsession" ] ; then
+    "tmuxsession" &> /dev/null
+else
+    if [[ ! $TERM =~ screen ]]; then
+        tmux
+    fi
+fi
 
 # Include zshrc.d folder for more configuration
 [ -d ~/.zshrc.d ] && for file in ~/.zshrc.d/*; do source $file; done
