@@ -12,7 +12,7 @@ endif
 
 let g:vim_bootstrap_langs = "go,python,rust,typescript"
 let g:vim_bootstrap_editor = "vim"				" nvim or vim
-let g:vim_bootstrap_theme = "molokai"
+let g:vim_bootstrap_theme = "nord"
 let g:vim_bootstrap_frams = ""
 
 if !filereadable(vimplug_exists)
@@ -49,8 +49,8 @@ Plug 'dense-analysis/ale'
 Plug 'Yggdroot/indentLine'
 Plug 'editor-bootstrap/vim-bootstrap-updater'
 Plug 'tpope/vim-rhubarb' " required by fugitive to :Gbrowse
+Plug 'arcticicestudio/nord-vim'
 Plug 'tomasr/molokai'
-
 
 if isdirectory('/usr/local/opt/fzf')
   Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
@@ -178,8 +178,7 @@ set ruler
 set number
 
 let no_buffers_menu=1
-colorscheme molokai
-
+colorscheme nord
 
 set mousemodel=popup
 set t_Co=256

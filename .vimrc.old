@@ -1,0 +1,31 @@
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" Install vim-plug if not found
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+endif
+
+" Run PlugInstall if there are missing plugins
+autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+  \| PlugInstall --sync | source $MYVIMRC
+\| endif
+
+call plug#begin()
+call plug#end()
+
+colo elflord
+syntax enable
+set tabstop=4
+set softtabstop=4
+set expandtab
+set number
+set showcmd
+set cursorline
+set lazyredraw
+set incsearch
+set hlsearch
+autocmd BufNewFile,BufRead * setlocal formatoptions-=r
+
+set pastetoggle=<F2>
