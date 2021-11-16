@@ -12,11 +12,11 @@ req_extensions     = req_ext
 
 [ req_distinguished_name ]
 countryName         = US
-stateOrProvinceName = Ohio
-localityName        = Columbus
-organizationName    = WidePoint Corporation
+stateOrProvinceName = State
+localityName        = City
+organizationName    = My Corporation
 commonName          = $1
-emailAddress        = it@widepoint.com
+emailAddress        = me@mycorporation.com
 
 [ req_ext ]
 subjectAltName = @alt_names
