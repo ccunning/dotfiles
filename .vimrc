@@ -51,6 +51,8 @@ Plug 'editor-bootstrap/vim-bootstrap-updater'
 Plug 'tpope/vim-rhubarb' " required by fugitive to :Gbrowse
 Plug 'arcticicestudio/nord-vim'
 Plug 'tomasr/molokai'
+Plug 'mg979/vim-visual-multi'
+Plug 'hashivim/vim-terraform'
 
 if isdirectory('/usr/local/opt/fzf')
   Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'

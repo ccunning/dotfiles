@@ -10,6 +10,7 @@ alias dc="docker-compose"
 alias n='terminal_velocity'
 alias c='cd ~/Projects'
 alias iac='cd ~/Projects/IAC'
+alias infra='cd ~/Projects/IAC/infrastructure/live-infrastructure'
 alias ssh-copy-id='ssh-copy-id -i ~/.ssh/id_ed25519 -o PubkeyAuthentication=no'
 alias shn='shutdown -h now'
 alias say='spd-say'
@@ -30,9 +31,28 @@ alias av="aws-vault"
 alias tgp="terragrunt plan"
 alias tgps="terragrunt plan --terragrunt-source-update"
 alias tga="terragrunt apply"
+alias tgaA="terragrunt apply -auto-approve"
 alias tgas="terragrunt apply --terragrunt-source-update"
+alias tgasA="terragrunt apply --terragrunt-source-update -auto-approve"
 alias tgi="terragrunt init"
 alias tgis="terragrunt init --terragrunt-source-update"
+alias tgo="terragrunt output"
 
 # Mac
 alias ssn="pmset sleepnow"
+alias fudns="sudo dscacheutil -flushcache; sleep 2; sudo killall -HUP mDNSResponder;"
+
+# Kubernetes
+alias kx="kubectx"
+alias kn="kubens"
+alias ku="kustomize"
+alias kub="kustomize build --enable-alpha-plugins --load-restrictor LoadRestrictionsNone"
+alias kg="kubectl get"
+alias kd="kubectl describe"
+alias kgic="kubectl get ingressclass"
+alias kdic="kubectl describe ingressclass"
+alias kgpv="kubectl get pv"
+alias kdpv="kubectl describe pv"
+
+# wq
+alias hq="wq -i hcl"
