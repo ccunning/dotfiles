@@ -11,8 +11,6 @@ yum install -y \
   
 yum install -y mosh
 
-systemctl enable nftables
-
 # Setup ccunning user
 useradd -m -u 1000 -g 1000 ccunning
 mkdir /home/ccunning/.ssh
@@ -49,6 +47,44 @@ AcceptEnv LC_IDENTIFICATION LC_ALL LANGUAGE
 AcceptEnv XMODIFIERS
 Subsystem sftp  /usr/libexec/openssh/sftp-server
 EOF
+
+cat > /etc/sysconfig/nftables.conf << EOF
+#!/usr/sbin/nft -f
+table inet filter {
+    chain input {
+        type filter hook input priority 0; policy drop;
+
+        # accept any localhost traffic
+        iif lo accept
+
+        # accept traffic originated from us
+        ct state established,related accept
+
+        # drop invalid packets
+        ct state invalid counter drop
+
+        # accept ssh and mosh
+        tcp dport { 55535 } accept
+        udp dport { 55536 } accept
+
+        # accept icmp
+        ip protocol icmp accept
+
+        # count and reject everything else
+        counter reject with icmpx type admin-prohibited
+    }
+
+    chain forward {
+        type filter hook forward priority 0; policy drop;
+    }
+
+    chain output {
+        type filter hook output priority 0; policy accept;
+    }
+}
+EOF
+
+systemctl enable nftables && systemctl start nftables
 
 semanage port -a -t ssh_port_t -p tcp 55535
 

@@ -17,3 +17,15 @@ mkdir ~/.bin.local
 ln -s "${HERE}/.config" ~
 ln -s "${HERE}/.gitignore_global" ~
 git config --global core.excludesfile ~/.gitignore_global
+
+# Install p10k
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+cp "${HERE}/.p10k.zsh.small" "~/.p10k.zsh"
+
+# Install fzf
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+~/.fzf/install --all
+
+# Git config
+git config --global user.email "curt.cunning@outlook.com"
+git config --global user.name "Curt Cunning"
