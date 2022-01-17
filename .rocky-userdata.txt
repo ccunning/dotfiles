@@ -6,6 +6,7 @@ yum install -y \
   tmux \
   nftables \
   net-tools \
+  util-linux-user \
   epel-release
   
 yum install -y mosh
@@ -19,6 +20,7 @@ chmod 700 /home/ccunning/.ssh
 echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDUvmAJ5XxNxzZbxdAU//NOlV85fNkRiU8vLXERM2XM5" >> /home/ccunning/.ssh/authorized_keys
 chmod 600 /home/ccunning/.ssh/authorized_keys
 chown -R ccunning:ccunning /home/ccunning/.ssh
+chsh -s /bin/zsh ccunning
 
 usermod -aG wheel ccunning
 
