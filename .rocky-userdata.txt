@@ -1,0 +1,53 @@
+# Install packages
+yum install -y \
+  git \
+  vim \
+  zsh \
+  tmux \
+  nftables \
+  net-tools \
+  epel-release
+  
+yum install -y mosh
+
+systemctl enable nftables
+
+# Setup ccunning user
+useradd -m -u 1000 -g 1000 ccunning
+mkdir /home/ccunning/.ssh
+chmod 700 /home/ccunning/.ssh
+echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDUvmAJ5XxNxzZbxdAU//NOlV85fNkRiU8vLXERM2XM5" >> /home/ccunning/.ssh/authorized_keys
+chmod 600 /home/ccunning/.ssh/authorized_keys
+chown -R ccunning:ccunning /home/ccunning/.ssh
+
+usermod -aG wheel ccunning
+
+sed -i '/^%wheel.*/d' /etc/sudoers
+sed -i 's/^#\s*%wheel/%wheel/g' /etc/sudoers
+
+# Setup SSH
+cat > /etc/ssh/sshd_config << EOF
+Port 55535
+HostKey /etc/ssh/ssh_host_rsa_key
+HostKey /etc/ssh/ssh_host_ecdsa_key
+HostKey /etc/ssh/ssh_host_ed25519_key
+SyslogFacility AUTHPRIV
+PermitRootLogin no
+AuthorizedKeysFile .ssh/authorized_keys
+PasswordAuthentication no
+ChallengeResponseAuthentication no
+GSSAPIAuthentication yes
+GSSAPICleanupCredentials no
+UsePAM yes
+X11Forwarding no
+PrintMotd no
+AcceptEnv LANG LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY LC_MESSAGES
+AcceptEnv LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT
+AcceptEnv LC_IDENTIFICATION LC_ALL LANGUAGE
+AcceptEnv XMODIFIERS
+Subsystem sftp  /usr/libexec/openssh/sftp-server
+EOF
+
+semanage port -a -t ssh_port_t -p tcp 55535
+
+systemctl restart sshd
