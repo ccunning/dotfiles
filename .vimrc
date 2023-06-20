@@ -53,6 +53,8 @@ Plug 'arcticicestudio/nord-vim'
 Plug 'tomasr/molokai'
 Plug 'mg979/vim-visual-multi'
 Plug 'hashivim/vim-terraform'
+Plug 'vimwiki/vimwiki'
+Plug 'scrooloose/syntastic'
 
 if isdirectory('/usr/local/opt/fzf')
   Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
@@ -80,13 +82,6 @@ Plug 'honza/vim-snippets'
 " go
 "" Go Lang Bundle
 Plug 'fatih/vim-go', {'do': ':GoInstallBinaries'}
-
-
-" python
-"" Python Bundle
-Plug 'davidhalter/jedi-vim'
-Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'}
-
 
 " rust
 " Vim racer
@@ -172,12 +167,21 @@ let g:session_autoload = "no"
 let g:session_autosave = "no"
 let g:session_command_aliases = 1
 
+"" VimWiki settings
+set nocompatible
+let g:vimwiki_ext2syntax = {'.md': 'markdown'}
+let g:vimwiki_list = [{'syntax': 'markdown','ext': '.md'}]
+au FileType vimwiki setlocal shiftwidth=4 tabstop=4
+
+"" Python
+let g:syntastic_python_checkers = ['pylint']
+
 "*****************************************************************************
 "" Visual Settings
 "*****************************************************************************
 syntax on
 set ruler
-set number
+set number relativenumber
 
 let no_buffers_menu=1
 colorscheme nord
@@ -197,7 +201,7 @@ else
 
   " IndentLine
   let g:indentLine_enabled = 1
-  let g:indentLine_concealcursor = 0
+  let g:indentLine_concealcursor = ""
   let g:indentLine_char = '┆'
   let g:indentLine_faster = 1
 
@@ -419,7 +423,7 @@ if has('autocmd')
   autocmd GUIEnter * set visualbell t_vb=
 endif
 
-"" Copy/Paste/Cut
+" Copy/Paste/Cut
 if has('unnamedplus')
   set clipboard=unnamed,unnamedplus
 endif
@@ -556,8 +560,7 @@ let g:jedi#completions_command = "<C-Space>"
 let g:jedi#smart_auto_mappings = 0
 
 " ale
-:call extend(g:ale_linters, {
-    \'python': ['flake8'], })
+    \'python': ['flake8','black','], })
 
 " vim-airline
 let g:airline#extensions#virtualenv#enabled = 1
