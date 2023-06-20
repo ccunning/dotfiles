@@ -1,4 +1,15 @@
 #!/bin/bash
-for profile in $(aws configure list-profiles | grep -E -i "\-sso$"); do
-  aws-vault exec "$profile" --json &> /dev/null
+
+get_creds() {
+  aws-vault exec "${1}" --json &> /dev/null
+}
+
+aws-vault clear
+profile="$(aws configure list-profiles | grep -Ei "\-sso$" | head -n 1)"
+echo "Pulling ${profile} credentials"
+get_creds "${profile}"
+for profile in $(aws configure list-profiles | grep -Ei "\-sso$" | /usr/bin/tail +2); do
+  echo "Pulling ${profile} credentials"
+  get_creds "${profile}" &
 done
+wait

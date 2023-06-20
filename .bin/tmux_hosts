@@ -53,7 +53,7 @@ fi
 if [ ! -z "${SSMLIST[0]}" ]; then
     hosts=$(aws ec2 describe-instances | jq -r '.["Reservations"][]["Instances"][] | {(.["Tags"][] | select(.Key=="Name") | .["Value"]): .["InstanceId"]}' | jq -s 'add')
     for i in "${SSMLIST[@]}"; do
-        host=$(tr '[:lower:]' '[:upper:]' <<< "${i}")
+        host=$(tr '[:upper:]' '[:lower:]' <<< "${i}")
         if ! [[ $(echo $hosts | jq -r ".[\"$host\"]") = "null" ]]; then
             instance=$(jq -r ".[\"$host\"]" <<< "$hosts")
             let count=$count+1
