@@ -3,7 +3,8 @@ alias please='sudo $(fc -ln -1)'
 
 # User specific aliases and functions
 alias -- -="cd -" # Changes back to previous directory
-alias t='todo.sh -t'
+alias tmux-attach="tmux select-window -t 0 \; a"
+alias t='tsh'
 alias rdp="xfreerdp --sec rdp --plugin cliprdr -g 1440x900"
 alias ltr="ls -ltr"
 alias dc="docker-compose"
@@ -26,6 +27,11 @@ alias wacom="~/bin/set_wacom"
 alias ssm="aws ssm start-session --target"
 alias ssh-add="ssh-add ~/.ssh/id_ed25519 ~/.ssh/id_ed25519_git"
 alias av="aws-vault"
+alias al="aws-login"
+alias rmesc="sed 's/\x1b\[[0-9;]*[a-zA-Z]//g'"
+alias nocolor='sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2};?)?)?[mGK]//g"'
+alias vim="nvim"
+alias vi="nvim"
 
 # Terraform / Terragrunt
 alias tgp="terragrunt plan"
@@ -37,6 +43,7 @@ alias tgasA="terragrunt apply --terragrunt-source-update -auto-approve"
 alias tgi="terragrunt init"
 alias tgis="terragrunt init --terragrunt-source-update"
 alias tgo="terragrunt output"
+alias tglo="terragrunt providers lock -platform=linux_arm64 -platform=linux_amd64 -platform=darwin_amd64 -platform=darwin_arm64"
 
 # Mac
 alias ssn="pmset sleepnow"
@@ -46,7 +53,7 @@ alias fudns="sudo dscacheutil -flushcache; sleep 2; sudo killall -HUP mDNSRespon
 alias kx="kubectx"
 alias kn="kubens"
 alias ku="kustomize"
-alias kub="kustomize build --enable-alpha-plugins --load-restrictor LoadRestrictionsNone"
+alias kub="kustomize build --enable-alpha-plugins --load-restrictor LoadRestrictionsNone --enable-helm"
 alias kg="kubectl get"
 alias kd="kubectl describe"
 alias kgic="kubectl get ingressclass"
@@ -54,5 +61,20 @@ alias kdic="kubectl describe ingressclass"
 alias kgpv="kubectl get pv"
 alias kdpv="kubectl describe pv"
 
+alias badpods="kubectl get pods --field-selector='status.phase!=Error,status.phase!=Succeeded,status.phase!=Completed,status.phase!=Running' --all-namespaces"
+alias kbug="kubectl run -i --tty --rm debug-curt --image=praqma/network-multitool --restart=Never -- /bin/bash"
+
+# yq
+alias xq="yq e -p xml"
+
 # wq
-alias hq="wq -i hcl"
+alias hq="wq --hcl"
+
+# RAINBOW!
+alias hr='printf $(printf "\e[$(shuf -i 91-97 -n 1);1m%%%ds\e[0m\n" $(tput cols)) | tr " " ='
+
+# ripgrep
+alias rg="rg --hidden --glob '!.git/'"
+
+# git
+alias git-clean='git branch --merged | egrep -v "(^\*|master|main)" | xargs git branch -d'

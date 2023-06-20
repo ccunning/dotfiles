@@ -53,7 +53,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(aws git docker docker-compose history colorize colored-man-pages common-aliases golang sudo sublime kubectl history-substring-search python vi-mode terraform asdf kube-ps1 helm)
+plugins=(aws git docker history colorize colored-man-pages common-aliases golang sublime kubectl history-substring-search python vi-mode terraform helm direnv)
 
 ZSH_DISABLE_COMPFIX=true
 
@@ -67,8 +67,8 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-
-SAVEHIST=1000000
+export HISTSIZE=1000000
+export SAVEHIST=$HISTSIZE
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
@@ -119,10 +119,6 @@ export AWS_PAGER=""
 # Terraform Configuration
 export TF_PLUGIN_CACHE_DIR="$HOME/.terraform.d/plugin-cache"
 
-function open() {
-    xdg-open "$*" &|
-}
-
 # TMUX auto create sessions
 tmuxsession=$(tmux list-sessions | grep -v "(attached)" | awk -F':' '{print $1}' | head -1)
 if [ ! -z "$tmuxsession" ] ; then
@@ -149,3 +145,5 @@ export PATH="$PATH:${HOME}/.bin:${HOME}/.bin.local:${HOME}/.rvm/bin"
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+eval "$(/usr/local/bin/rtx activate zsh)"
