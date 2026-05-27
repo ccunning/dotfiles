@@ -1,4 +1,4 @@
-#sops -d clusters/eks-platform-mgmt-use1-1/apps/harbor/harbor-helm/harbor-values.yaml!/bin/bash
+#!/bin/bash
 
 # aws-login
 #
