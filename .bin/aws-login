@@ -1,0 +1,99 @@
+#sops -d clusters/eks-platform-mgmt-use1-1/apps/harbor/harbor-helm/harbor-values.yaml!/bin/bash
+
+# aws-login
+#
+# This script is used to be able to login to the AWS console using an
+# SSO temporary profile credential that has already been stored in
+# aws-vault.
+# If fzf is installed, it will use fzf to list all of the available
+# AWS profiles that can be selected. If no profile is selected, the
+# script will simply exit
+#
+# `$ aws-login`
+# `$ aws-login <profile>`
+
+BROWSER=$(tr '[:upper:]' '[:lower:]' <<< "${AWS_LOGIN_BROWSER}")
+
+main() {
+  if [[ -n ${1} ]]; then
+    if [[ ${BROWSER} == "firefox" ]]; then
+      avl "$(aws-vault login -s "${1}")" "${1}"
+    elif [[ ${BROWSER} == "chrome" ]]; then
+      avlchrome "$(aws-vault login -s "${1}")" "${1}"
+    else
+      aws-vault login "${1}"
+    fi
+  else
+    profile=${1}
+    if which fzf &>/dev/null; then
+      profile=$(aws configure list-profiles | grep -Ei '\-sso$' | fzf)
+      if [[ ${BROWSER} == "firefox" ]]; then
+        [[ -n "$profile" ]] && avl "$(aws-vault login -s "${profile}")" "${profile}"
+      elif [[ ${BROWSER} == "chrome" ]]; then
+        [[ -n "$profile" ]] && avlchrome "$(aws-vault login -s "${profile}")" "${profile}"
+      else
+        [[ -n "$profile" ]] && aws-vault login "${profile}"
+      fi
+    fi
+  fi
+}
+
+getcolor() {
+  hexProfile=$(echo "${1}" | md5sum | awk '{print $1}')
+  intProfile=$(python3 -c "print(int(\"${hexProfile}\",16)%8)")
+  case "$intProfile" in
+    0)
+      echo "blue";;
+    1)
+      echo "turquoise";;
+    2)
+      echo "green";;
+    3)
+      echo "yellow";;
+    4)
+      echo "orange";;
+    5)
+      echo "red";;
+    6)
+      echo "pink";;
+    7)
+      echo "purple";;
+  esac
+}
+
+avl() {
+  FIREFOX="/Applications/Firefox.app/Contents/MacOS/firefox"
+  LOGIN_URL="${1}"
+  # [[ $? != 0 ]] && echo "${LOGIN_URL}" && return
+  ENCODED_URL="${LOGIN_URL//&/%26}"
+  URI_HANDLER="ext+container:name=${2}&color=$(getcolor "${2}")&url=${ENCODED_URL}"
+  "${FIREFOX}" "${URI_HANDLER}"
+}
+
+avlchrome() {
+  TMP_DATA_DIR="/tmp/awslogin/${2}/data"
+  TMP_CACHE_DIR="/tmp/awslogin/${2}/cache"
+  if [[ ! -d "${TMP_DATA_DIR}" ]]; then
+    mkdir -p "${TMP_DATA_DIR}"
+    if [[ $? != 0 ]]; then
+      echo "unable to create temporary chrome data directory at ${TMP_DATA_DIR}.. exiting"
+      exit 1
+    fi
+  fi
+  if [[ ! -d "${TMP_CACHE_DIR}" ]]; then
+    mkdir -p "${TMP_CACHE_DIR}"
+    if [[ $? != 0 ]]; then
+      echo "Unable to create temporary chrome cache directory at ${TMP_CACHE_DIR}.. exiting."
+      exit 1
+    fi
+  fi
+  LOGIN_URL="${1}"
+  `/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome \
+  --no-first-run \
+  --user-data-dir=$TMP_DATA_DIR \
+  --disk-cache-dir=$TMP_CACHE_DIR \
+  "${LOGIN_URL}" \
+  >/dev/null 2>&1 &`
+  }
+
+main "$@"; exit

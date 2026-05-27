@@ -49,7 +49,7 @@ Plug 'dense-analysis/ale'
 Plug 'Yggdroot/indentLine'
 Plug 'editor-bootstrap/vim-bootstrap-updater'
 Plug 'tpope/vim-rhubarb' " required by fugitive to :Gbrowse
-Plug 'arcticicestudio/nord-vim'
+Plug 'nordtheme/vim'
 Plug 'tomasr/molokai'
 Plug 'mg979/vim-visual-multi'
 Plug 'hashivim/vim-terraform'
@@ -188,7 +188,7 @@ colorscheme nord
 
 set mousemodel=popup
 set t_Co=256
-set guioptions=egmrti
+"" set guioptions=egmrti
 set gfn=Monospace\ 10
 
 if has("gui_running")

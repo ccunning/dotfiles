@@ -1,0 +1,32 @@
+fr_usage() {
+  # Display Help
+  echo "---"
+  echo "fr will find and replace values in files recursivly."
+  echo
+  echo "Syntax: fr <find value> <replace value> [<filter string>]"
+  echo
+}
+
+fr() {
+  FIND="$1"
+  REPLACE="$2"
+  FILTER="$3"
+  if [ -z "${FIND}" ] || [ -z "${REPLACE}" ]; then
+    >&2 echo "ERR: must include two parameters for find and replace"
+    fr_usage
+    return 1
+  fi
+  if command -v rg 2>&1 >/dev/null; then
+    if [ -z "${FILTER}" ]; then
+      rg -l "$FIND" | xargs sed -i "s/${FIND}/${REPLACE}/g"
+    else
+      rg -l "$FIND" | rg -i "$FILTER" | xargs sed -i "s/${FIND}/${REPLACE}/g"
+    fi
+  else
+    if [ -z "${FILTER}" ]; then
+      grep -l "$FIND" | xargs sed -i "s/${FIND}/${REPLACE}/g"
+    else
+      grep -l "$FIND" | grep -i "$FILTER" | xargs sed -i "s/${FIND}/${REPLACE}/g"
+    fi
+  fi
+}

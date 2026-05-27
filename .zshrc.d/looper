@@ -1,0 +1,14 @@
+loop() {
+  if [ $# -lt 2 ]; then
+    echo "Usage: loop <number_of_times> <command>"
+    return 1
+  fi
+
+  local count=$1
+  shift
+  local cmd="$@"
+
+  for i in $(seq 1 $count); do
+    eval "$cmd"
+  done
+}
